@@ -1,9 +1,113 @@
+/*
+
 import React, { useState } from 'react';
 
-import './EntryForm.css';
+import './ExpenseForm.css';
 
-const EntryForm = () => {
-  const [enteredProject, setEnteredProject] = useState('');
+const ExpenseForm = (props) => {
+  const [enteredTitle, setEnteredTitle] = useState('');
+  const [enteredAmount, setEnteredAmount] = useState('');
+  const [enteredDate, setEnteredDate] = useState('');
+  // const [userInput, setUserInput] = useState({
+  //   enteredTitle: '',
+  //   enteredAmount: '',
+  //   enteredDate: '',
+  // });
+
+  const titleChangeHandler = (event) => {
+    setEnteredTitle(event.target.value);
+    // setUserInput({
+    //   ...userInput,
+    //   enteredTitle: event.target.value,
+    // });
+    // setUserInput((prevState) => {
+    //   return { ...prevState, enteredTitle: event.target.value };
+    // });
+  };
+
+  const amountChangeHandler = (event) => {
+    setEnteredAmount(event.target.value);
+    // setUserInput({
+    //   ...userInput,
+    //   enteredAmount: event.target.value,
+    // });
+  };
+
+  const dateChangeHandler = (event) => {
+    setEnteredDate(event.target.value);
+    // setUserInput({
+    //   ...userInput,
+    //   enteredDate: event.target.value,
+    // });
+  };
+
+  const submitHandler = (event) => {
+    event.preventDefault();
+
+    const expenseData = {
+      title: enteredTitle,
+      amount: enteredAmount,
+      date: new Date(enteredDate),
+    };
+
+    props.onSaveExpenseData(expenseData);
+    setEnteredTitle('');
+    setEnteredAmount('');
+    setEnteredDate('');
+  };
+
+  return (
+    <form onSubmit={submitHandler}>
+      <div className='new-expense__controls'>
+        <div className='new-expense__control'>
+          <label>Title</label>
+          <input
+            type='text'
+            value={enteredTitle}
+            onChange={titleChangeHandler}
+          />
+        </div>
+        <div className='new-expense__control'>
+          <label>Amount</label>
+          <input
+            type='number'
+            min='0.01'
+            step='0.01'
+            value={enteredAmount}
+            onChange={amountChangeHandler}
+          />
+        </div>
+        <div className='new-expense__control'>
+          <label>Date</label>
+          <input
+            type='date'
+            min='2019-01-01'
+            max='2022-12-31'
+            value={enteredDate}
+            onChange={dateChangeHandler}
+          />
+        </div>
+      </div>
+      <div className='new-expense__actions'>
+        <button type="button" onClick={props.onCancel}>Cancel</button>
+        <button type='submit'>Add Expense</button>
+      </div>
+    </form>
+  );
+};
+
+export default ExpenseForm;
+*/
+
+
+
+import React, { useState } from 'react';
+
+
+import './ExpenseForm.css';
+
+const ExpenseForm = (props) => {
+  const [enteredTitle, setEnteredTitle] = useState('');
   const [enteredDate, setEnteredDate] = useState('');
   const [enteredAmount, setEnteredAmount] = useState('');
   const [enteredCategory, setEnteredCategory] = useState('');
@@ -12,14 +116,16 @@ const EntryForm = () => {
   const [enteredUnit, setEnteredUnit] = useState('');
   const [enteredVendorName, setEnteredVendorName] = useState('');
   const [enteredType, setEnteredType] = useState('');
+  const [enteredBO, setEnteredBO] = useState('');
+  const [enteredPO, setEnteredPO] = useState('');
     
 
 
 
 
-//   Project	Date	Category	Item#	Description	Make 	Qty	Unit	Bill No	PO No	Vendor Name	Price /Item	Taxes	Total Price	Asset	Image
+//   Title	Date	Category	Item#	Description	Make 	Qty	Unit	Bill No	PO No	Vendor Name	Price /Item	Taxes	Total Price	Asset	Image
 
-  const projectChangeHandler = (event) => {setEnteredProject(event.target.value);};
+  const titleChangeHandler = (event) => {setEnteredTitle(event.target.value);};
   const amountChangeHandler = (event) => {setEnteredAmount(event.target.value);};
   const dateChangeHandler = (event) => {setEnteredDate(event.target.value);};
   const categoryChangeHandler = (event) => {setEnteredCategory(event.target.value);};
@@ -28,28 +134,36 @@ const EntryForm = () => {
   const unitChangeHandler = (event) => {setEnteredUnit(event.target.value);};
   const vendorNameChangeHandler = (event) => {setEnteredVendorName(event.target.value);};
   const typeChangeHandler = (event) => {setEnteredType(event.target.value);};
+  const boChangeHandler = (event) => {setEnteredBO(event.target.value);};
+  const poChangeHandler = (event) => {setEnteredPO(event.target.value);};
 
   const submitHandler = (event) => {
     event.preventDefault();
 
-    const entryData = 
+    const expenseData = 
     {
-        project: enteredProject,
+        title: enteredTitle,
         date: new Date(enteredDate),
+        amount: enteredAmount,
         category : enteredCategory,
         make : enteredMake,
-        amount: enteredAmount,
         qty : enteredQty,
         unit : enteredUnit,
         vendor : enteredVendorName,
         type : enteredType,
+        bo : enteredBO,
+        po : enteredPO,
     };
 
-    // props.onSaveEntryData(entryData);
+    props.onSaveExpenseData(expenseData);
 
-    console.log(entryData);
+    // console.log(expenseData);
+    
+    // var jsonContent = JSON.stringify(expenseData);
+    // console.log(jsonContent);
 
-    setEnteredProject('');
+
+    setEnteredTitle('');
     setEnteredAmount('');
     setEnteredDate('');
     setEnteredCategory('');
@@ -58,6 +172,7 @@ const EntryForm = () => {
     setEnteredUnit('');
     setEnteredVendorName('');
     setEnteredType('');
+
   };
 
   return (
@@ -66,18 +181,18 @@ const EntryForm = () => {
     <h1 className = "head">Engineering Plus</h1>
 
     <form className = "form" onSubmit={submitHandler}>
-      <div className='new-entry__controls'>
+      <div className='new-expense__controls'>
         
-        <div className='new-entry__control'>
+        <div className='new-expense__control'>
           <label>Project Name</label>
           <input
             type='text'
-            value={enteredProject}
-            onChange={projectChangeHandler}
+            value={enteredTitle}
+            onChange={titleChangeHandler}
           />
         </div>
         
-        <div className='new-entry__control'>
+        <div className='new-expense__control'>
           <label>Date</label>
           <input
             type='date'
@@ -90,7 +205,7 @@ const EntryForm = () => {
       
 
 
-        <div className='new-entry__control'>
+        <div className='new-expense__control'>
           <label>Category</label>
           <select value = {enteredCategory} onChange={categoryChangeHandler}>            
             <option value="" onClick = {() => {setEnteredMake('')}} >---Please Enter---</option>
@@ -101,7 +216,7 @@ const EntryForm = () => {
           </select>
         </div>  
 
-        <div className='new-entry__control'>
+        <div className='new-expense__control'>
           <label>Type</label>
           <select value = {enteredType} onChange={typeChangeHandler}>            
             {/* <option value="" onClick = {() => {setEnteredType('')}} >---Please Enter---</option> */}
@@ -113,7 +228,7 @@ const EntryForm = () => {
         </div>  
 
         
-        <div className='new-entry__control'>
+        <div className='new-expense__control'>
           <label>Price</label>
           <input
             type='number'
@@ -124,7 +239,7 @@ const EntryForm = () => {
           />
         </div>
 
-        <div className='new-entry__control'>
+        <div className='new-expense__control'>
           <label>Quantity   </label>
           <input
             placeholder = '0'
@@ -133,11 +248,11 @@ const EntryForm = () => {
             step='1'
             value={enteredQty}
             onChange={qtyChangeHandler}
-            style = {{width : "30px"}}
+            style = {{width : "60px"}}
           />
         </div>
 
-        <div className='new-entry__control'>
+        <div className='new-expense__control'>
           <label>Unit</label>
           <select value = {enteredUnit} onChange={unitChangeHandler} style = {{width : "80px"}} >            
             {/* <option value="" onClick = {() => {setEnteredType('')}} >---Please Enter---</option> */}
@@ -150,7 +265,7 @@ const EntryForm = () => {
           </select>
         </div>  
 
-        <div className='new-entry__control'>
+        <div className='new-expense__control'>
           <label>Make</label>
           <select value = {enteredMake} onChange={makeChangeHandler}>            
             <option value="" onClick = {() => {setEnteredMake('')}} >---Please Enter---</option>
@@ -161,16 +276,46 @@ const EntryForm = () => {
           </select>
         </div>  
 
-        <div className='new-entry__control'>
+        <div className='new-expense__control'>
           <label>Vendor Name</label>
           <input
             type='text'
             value={enteredVendorName}
             onChange={vendorNameChangeHandler}
           />
-        </div>        
+        </div> 
 
-        <div className='new-entry__control'>
+        <div className='new-expense__control'>
+          <label>Bill Order No.</label>
+          <input
+            placeholder = 'xxxxxxxxxx'
+            type='number'
+            min='1'
+            // step='1'
+            value={enteredBO}
+            onChange={boChangeHandler}
+            // style = {{width : "60px"}}
+          />
+        </div>
+
+        <div className='new-expense__control'>
+          <label>Payment Order No.</label>
+          <input
+            placeholder = 'xxxxxxxxxx'
+            type='number'
+            min='1'
+            // step='1'
+            value={enteredPO}
+            onChange={poChangeHandler}
+            // style = {{width : "60px"}}
+          />
+        </div>
+
+
+
+
+
+        {/* <div className='new-expense__control'>
           <label>Bill No</label>
           <input
             type='number'
@@ -179,21 +324,21 @@ const EntryForm = () => {
           />
         </div>        
 
-        <div className='new-entry__control'>
+        <div className='new-expense__control'>
           <label>PO No</label>
           <input
             type='number'
             value={enteredVendorName}
             onChange={vendorNameChangeHandler}
           />
-        </div>        
+        </div>         */}
 
 
 
 
       </div>
-      <div className='new-entry__actions' >
-        <button className='new-entry__action' type='submit'>Enter</button>
+      <div className='new-expense__actions' >
+        <button className='new-expense__action' type='submit'>Enter</button>
       </div>
     </form>
 
@@ -201,4 +346,4 @@ const EntryForm = () => {
   );
 };
 
-export default EntryForm;
+export default ExpenseForm;
