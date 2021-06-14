@@ -18,6 +18,13 @@ const ExpenseItem = (props) => {
           <div className='expense-item__price'>${props.amount}</div>
 
           <div> {props.vendor}</div>
+          <div> {props.make}</div>
+          <div> {props.qty}</div>
+          <div> {props.bo}</div>
+          <div> {props.po}</div>
+          <div> {props.type}</div>
+          <div> {props.category}</div>
+
 
         </div>
       </Card>

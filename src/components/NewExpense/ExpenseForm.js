@@ -118,6 +118,7 @@ const ExpenseForm = (props) => {
   const [enteredType, setEnteredType] = useState('');
   const [enteredBO, setEnteredBO] = useState('');
   const [enteredPO, setEnteredPO] = useState('');
+  // const [enteredNetAmt, setEnteredNetAmt] = useState('');
     
 
 
@@ -130,6 +131,7 @@ const ExpenseForm = (props) => {
   const dateChangeHandler = (event) => {setEnteredDate(event.target.value);};
   const categoryChangeHandler = (event) => {setEnteredCategory(event.target.value);};
   const makeChangeHandler = (event) => {setEnteredMake(event.target.value);};
+  // const netAmtChangeHandler = (event) => {setEnteredNetAmt(event.target.value);};
   const qtyChangeHandler = (event) => {setEnteredQty(event.target.value);};
   const unitChangeHandler = (event) => {setEnteredUnit(event.target.value);};
   const vendorNameChangeHandler = (event) => {setEnteredVendorName(event.target.value);};
@@ -265,7 +267,11 @@ const ExpenseForm = (props) => {
           </select>
         </div>  
 
-        <div className='new-expense__control'>
+
+
+
+
+        {/* <div className='new-expense__control'>
           <label>Make</label>
           <select value = {enteredMake} onChange={makeChangeHandler}>            
             <option value="" onClick = {() => {setEnteredMake('')}} >---Please Enter---</option>
@@ -274,7 +280,20 @@ const ExpenseForm = (props) => {
             <option value="NEW" className = "invent" > + Add New make</option>
 
           </select>
-        </div>  
+        </div>   */}
+
+        <div className='new-expense__control'>
+          <label>Make</label>
+          <input
+            type='text'
+            value={enteredMake}
+            onChange={makeChangeHandler}
+          />
+        </div>
+
+        
+
+
 
         <div className='new-expense__control'>
           <label>Vendor Name</label>
